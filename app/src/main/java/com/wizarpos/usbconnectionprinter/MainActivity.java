@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         PrinterUtil.openDevice();
         try {
             PrinterUtil.printText(this, "In the spring of 2012, a group of payment industry veterans from payment, mobile communication," +
-                    "and security industries got together. Thier expertise and accomplishments in the past 20+ years are : " + System.currentTimeMillis() + " print!");
+                    "and security industries got together. Their expertise and accomplishments in the past 20+ years are : " + System.currentTimeMillis() + " print!");
         } catch (Exception e) {
             e.printStackTrace();
         }

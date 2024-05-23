@@ -56,7 +56,7 @@ public class PrinterCommand1
     }
 
     /**
-     * Print the data in the buffer. If the black mark feature is available, move to the next black mark position after printing
+     * Print the data in the buffer. If the mark feature is available, move to the next mark position after printing
      * 
      * @return
      */
@@ -134,7 +134,7 @@ public class PrinterCommand1
         };
     }
 
-    /*--------------------------Line spacing setting command-----------------------------*/
+    /*--------------------------Line spacing setting commands-----------------------------*/
 
     /**
      * Set line spacing to 4 millimeters, 32 dots.
@@ -206,17 +206,17 @@ public class PrinterCommand1
         };
     }
 
-    /*--------------------------字符设置命令-----------------------------*/
+    /*--------------------------Character setting commands-----------------------------*/
 
     /**
      * Set the printing mode for characters. The default value is 0.
      * 
      * @param n bit 0: Reserved 
-     * 1: Font reversed
-     * 2: 1: Font upside down
-     * 3: 1: Bold font
-     * 4: 1: Double height
-     * 5: 1: Double width
+     * 1: Inverted
+     * 2: 1: Upside down
+     * 3: 1: Bold
+     * 4: 1: Height multiplier
+     * 5: 1: Width multiplier
      * 6: 1: Strikethrough
      * @return
      */
@@ -228,8 +228,8 @@ public class PrinterCommand1
     }
 
     /**
-     * The last 4 bits of n indicate whether the height is enlarged. When it equals 0, it is not enlarged. 
-     * The first 4 bits of n indicate whether the width is enlarged. When it equals 0, it is not enlarged.
+     * The last 4 bits of n indicate whether the height is multiplied. When it equals 0, it is not multiplied. 
+     * The first 4 bits of n indicate whether the width is multiplied. When it equals 0, it is not multiplied.
      * 
      * @param n
      * @return
@@ -242,9 +242,9 @@ public class PrinterCommand1
     }
 
     /**
-     * n=0: cancel bold font. When not equal to 0, set bold font.
+     * n=0: Cancel bold font. When not equal to 0, set bold font.
      * 
-     * @param the least significant bit of n is valid 
+     * @param Least significant bit of n is valid 
      * @return
      */
     static public byte[] getCmdEscEN(int n)
@@ -257,7 +257,7 @@ public class PrinterCommand1
     /**
      * default: 0
      * 
-     * @param n: spacing between two characters
+     * @param n: Spacing between two characters
      * @return
      */
     static public byte[] getCmdEscSpN(int n)
@@ -308,7 +308,7 @@ public class PrinterCommand1
     /**
      * Default:0
      * 
-     * @param n n=1: Set characters to print in reverse (white characters on black background), n=0: Cancel reverse printing
+     * @param n n=1: Set characters to print inverted (white characters on black background), n=0: Cancel inverted printing
      * @return
      */
     static public byte[] getCmdGsBN(int n)
@@ -321,7 +321,7 @@ public class PrinterCommand1
     /**
      * Default:0
      * 
-     * @param n n=0-2, underline height
+     * @param n n=0-2: Underline height
      * @return
      */
     static public byte[] getCmdEsc___N(int n)
@@ -343,7 +343,7 @@ public class PrinterCommand1
     }
 
     /**
-     * Used to set user-defined characters, max 32 characters.
+     * Set user-defined characters, max 32 characters.
      * 
      * @return
      */
@@ -354,7 +354,7 @@ public class PrinterCommand1
     }
 
     /**
-     * Used to cancel user-defined characters. After cancellation, use the internal system's characters.
+     * Cancel user-defined characters. After cancellation, use the internal system's characters.
      * 
      * @param n
      * @return
@@ -369,7 +369,8 @@ public class PrinterCommand1
     /**
      * Select the international character set. This command is not supported in the Chinese version.
      * 
-     * @param n international character set configuration: 0:USA 1:France 2:Germany 3:U.K. 4:Denmark I 5:Sweden
+     * @param n international character set configuration: 
+     *            0:USA 1:France 2:Germany 3:U.K. 4:Denmark I 5:Sweden
      *            6:Italy 7:Spain I 8:Japan 9:Norway 10:Denmark II 11:Spain II
      *            12:Latin America 13:Korea
      * @return
@@ -382,7 +383,7 @@ public class PrinterCommand1
     }
 
     /**
-     * Select character code page, used to select printable characters from 0x80 to 0xfe. 
+     * Select the character code page, used to select printable characters from 0x80 to 0xfe. 
      * This command is not supported in the Chinese version.
      * 
      * @param n character code page parameters are as follows: 0:437 1:850
@@ -395,7 +396,7 @@ public class PrinterCommand1
         };
     }
 
-    /*--------------------------Graphic printing commands omitted -----------------------------*/
+    /*--------------------------Graphic printing commands omitted-----------------------------*/
 
     /*--------------------------Key control commands-----------------------------*/
 
@@ -557,12 +558,8 @@ public class PrinterCommand1
      * Set font width and height
      * 
      * @param n = 0xAB
-     *            <p>
      *            A: width multiplier, 0<A<7, representing 1-8 times the width respectively
-     *            </p>
-     *            <p>
      *            B: height multiplier, 0<B<7, representing 1-8 times the height respectively
-     *            </p>
      */
     static public byte[] getCmdFontSize(int n)
     {
@@ -628,17 +625,17 @@ public class PrinterCommand1
     }
 
     /**
-     * Select the printing position of HRI characters. <br/>
-     * When printing barcodes, select the printing position of HRI characters <br/>
-     * n selects the printing position as shown in the diagram below: <br/>
-     * *************************** <br/>
-     * n Printing position <br/>
-     * 0,48 Do not print <br/>
-     * 1,49 Above the barcode <br/>
-     * 2,50 Below the barcode <br/>
-     * 3,51 Above and below the barcode <br/>
+     * Select the printing position of HRI characters.
+     * When printing barcodes, select the printing position of HRI characters
+     * n selects the printing position as shown in the diagram below:
+     * ***************************
+     * n Printing position
+     * 0,48 Do not print
+     * 1,49 Above the barcode
+     * 2,50 Below the barcode
+     * 3,51 Above and below the barcode
      * ************************** 
-     * HRI indicates the corresponding characters of the barcode that are readable. <br/>
+     * HRI indicates the corresponding characters of the barcode that are readable.
      * 
      * @param byte n: [Range] 0 <= n <= 3, 48 <= n <= 51 [Default Value] n = 0
      */
@@ -660,20 +657,20 @@ public class PrinterCommand1
     }
 
     /**
-     * Set barcode horizontal size. <br/>
-     * n sets the barcode width as follows: <br/>
-     * *********************************************************** <br/>
-     * n Multi-level barcode units <br/>
-     * Width (mm) Binary barcode Narrow bar width (mm) Wide bar width (mm) <br/>
-     * 2 0.250 0.250 0.625 <br/>
-     * 3 0.375 0.375 1.000 <br/>
-     * 4 0.560 0.500 1.250 <br/>
-     * 5 0.625 0.625 1.625 <br/>
-     * 6 0.750 0.750 2.000 <br/>
-     * The following are multi-level barcodes: <br/>
-     * UPC-A, UPC-E, JAN13 (EAN13), JAN8 (EAN8), CODE93, CODE128 <br/>
-     * The following are binary barcodes: <br/>
-     * CODE39, ITF, CODABAR <br/>
+     * Set barcode horizontal size.
+     * n sets the barcode width as follows:
+     * ***********************************************************
+     * n Multi-level barcode units
+     * Width (mm) Binary barcode Narrow bar width (mm) Wide bar width (mm)
+     * 2 0.250 0.250 0.625
+     * 3 0.375 0.375 1.000
+     * 4 0.560 0.500 1.250
+     * 5 0.625 0.625 1.625
+     * 6 0.750 0.750 2.000
+     * The following are multi-level barcodes:
+     * UPC-A, UPC-E, JAN13 (EAN13), JAN8 (EAN8), CODE93, CODE128
+     * The following are binary barcodes:
+     * CODE39, ITF, CODABAR
      * 
      * @param byte n: 2 <= n <= 6 [Default Value] n = 3
      */

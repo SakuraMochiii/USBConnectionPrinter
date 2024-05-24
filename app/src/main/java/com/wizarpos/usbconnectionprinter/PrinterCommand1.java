@@ -3,10 +3,10 @@ package com.wizarpos.usbconnectionprinter;
 
 public class PrinterCommand1
 {
-    /*--------------------------打印命令-----------------------------*/
+    /*--------------------------Print commands-----------------------------*/
 
     /**
-     * 打印行缓冲器里的内容并向前走纸一行。当行缓冲器为空时只向前走纸一行。
+     * Print the contents of the line buffer and feed one line. If the line buffer is empty, just feed one line.
      * 
      * @return
      */
@@ -18,7 +18,7 @@ public class PrinterCommand1
     }
 
     /**
-     * 打印位置跳到下一个制表位,制表位为 8 个字符的起始位置
+     * Move the print position to the next tab, with each tab being the start of an 8 character group.
      * 
      * @return
      */
@@ -30,7 +30,7 @@ public class PrinterCommand1
     }
 
     /**
-     * 打印缓冲区里的数据,如果有黑标功能,打印后进纸到下一个黑标位置
+     * Print the data in the buffer. If the black mark feature is available, move to the next black mark position after printing
      * 
      * @return
      */
@@ -42,9 +42,10 @@ public class PrinterCommand1
     }
 
     /**
-     * 打印行缓冲区里的内容,并向前走纸 n 点行。 该命令只对本行有效,不改变 ESC 2,ESC 3 命令设置的行间距值。
+     * Print the contents of the line buffer and move forward by n lines. 
+     * This command is only effective for the current line and does not change the line spacing value set by the ESC 2 and ESC 3 commands.
      * 
-     * @param n 0-255
+     * @param n: 0-255
      * @return
      */
     static public byte[] getCmdEscJN(int n)
@@ -55,7 +56,7 @@ public class PrinterCommand1
     }
 
     /**
-     * 打印缓冲区里的数据,如果有黑标功能,打印后进纸到下一个黑标位置
+     * Print the data in the buffer. If the mark feature is available, move to the next mark position after printing
      * 
      * @return
      */
@@ -67,9 +68,10 @@ public class PrinterCommand1
     }
 
     /**
-     * 打印行缓冲区里的内容,并向前走纸 n 行。 行高为 ESC 2,ESC 3 设定的值
+     * Print the contents of the line buffer and move forward by n lines. 
+     * This command is only effective for the current line and does not change the line spacing value set by the ESC 2 and ESC 3 commands.
      * 
-     * @param n 0-255
+     * @param n: 0-255
      * @return
      */
     static public byte[] getCmdEscDN(int n)
@@ -80,7 +82,7 @@ public class PrinterCommand1
     }
 
     /**
-     * 设置中文小字体
+     * Set Chinese small font.
      */
     static public byte[] getCmdSetSmallFont_CN()
     {
@@ -90,7 +92,7 @@ public class PrinterCommand1
     }
 
     /**
-     * 取消中文小字体
+     * Cancel Chinese small font.
      */
     static public byte[] getCmdCancelSmallFont_CN()
     {
@@ -100,7 +102,7 @@ public class PrinterCommand1
     }
 
     /**
-     * 设置英文小字体
+     * Set English small font.
      */
     static public byte[] getCmdSetSmallFont_EN()
     {
@@ -110,7 +112,7 @@ public class PrinterCommand1
     }
 
     /**
-     * 取消英文小字体
+     * Cancel English small font.
      */
     static public byte[] getCmdCancelSmallFont_EN()
     {
@@ -120,9 +122,9 @@ public class PrinterCommand1
     }
 
     /**
-     * 1:打印机处于连线模式,接受打印数据并打印 0:打印机处于离线模式,不接受打印数据
+     * 1: The printer is in online mode, receiving and printing data. 0: The printer is in offline mode, not accepting or printing data.
      * 
-     * @param n :0,1最低位有效
+     * @param n: 0, 1 with the lowest bit being effective.
      * @return
      */
     static public byte[] getCmdEscN(int n)
@@ -132,10 +134,10 @@ public class PrinterCommand1
         };
     }
 
-    /*--------------------------行间距设置命令-----------------------------*/
+    /*--------------------------Line spacing setting commands-----------------------------*/
 
     /**
-     * 设置行间距为 4 毫米,32 点
+     * Set line spacing to 4 millimeters, 32 dots.
      * 
      * @return
      */
@@ -147,9 +149,9 @@ public class PrinterCommand1
     }
 
     /**
-     * 设置行间距为 n 点行。 默认值行间距是 32 点。
+     * Set the line spacing to n dot lines. The default line spacing is 32 dots.
      * 
-     * @param n :0-255
+     * @param n: 0-255
      * @return
      */
     static public byte[] getCmdEsc3N(int n)
@@ -160,10 +162,13 @@ public class PrinterCommand1
     }
 
     /**
-     * 设置打印行的对齐方式,缺省:左对齐 0 ≤ n ≤ 2 或 48 ≤ n ≤ 50 左对齐: n=0,48 居中对齐: n=1,49 右对齐:
-     * n=2,50
+     * Set the alignment of printed lines. 
+     * Default: Left alignment 0 ≤ n ≤ 2 or 48 ≤ n ≤ 50 
+     * Left alignment: n=0,48
+     * Center alignment: n=1,49
+     * Right alignment: n=2,50
      * 
-     * @param n :0 ≤ n ≤ 2 或 48 ≤ n ≤ 50
+     * @param n: 0 ≤ n ≤ 2 or 48 ≤ n ≤ 50
      * @return
      */
     static public byte[] getCmdEscAN(int n)
@@ -174,7 +179,7 @@ public class PrinterCommand1
     }
 
     /**
-     * 设置打印的左边距,缺省为 0。左边距为 nL+nH*256,单位 0.125mm
+     * Set the left margin for printing, default is 0. The left margin is nL + nH * 256, unit is 0.125mm.
      * 
      * @param nL
      * @param nH
@@ -188,7 +193,7 @@ public class PrinterCommand1
     }
 
     /**
-     * 设置打印的左边距,缺省为 0 左边距为 nL+nH*256,单位 0.125mm
+     * Set the left margin for printing, default is 0. The left margin is nL + nH * 256, unit is 0.125mm.
      * 
      * @param nL
      * @param nH
@@ -201,13 +206,18 @@ public class PrinterCommand1
         };
     }
 
-    /*--------------------------字符设置命令-----------------------------*/
+    /*--------------------------Character setting commands-----------------------------*/
 
     /**
-     * 用于设置打印字符的方式。默认值是 0
+     * Set the printing mode for characters. The default value is 0.
      * 
-     * @param n 位 0:保留 位 1:字体反白 位 2:1:字体上下倒置 位 3:1:字体加粗 位 4:1:双倍高度 位 5:1:双倍宽度 位
-     *            6:1:删除线
+     * @param n bit 0: Reserved 
+     * 1: Inverted
+     * 2: 1: Upside down
+     * 3: 1: Bold
+     * 4: 1: Height multiplier
+     * 5: 1: Width multiplier
+     * 6: 1: Strikethrough
      * @return
      */
     static public byte[] getCmdEsc_N(int n)
@@ -218,7 +228,8 @@ public class PrinterCommand1
     }
 
     /**
-     * n 的低 4 位表示高度是否放大,等于 0 表示不放大 n 的高 4 位表示宽度是否放大,等于 0 表示不放大
+     * The last 4 bits of n indicate whether the height is multiplied. When it equals 0, it is not multiplied. 
+     * The first 4 bits of n indicate whether the width is multiplied. When it equals 0, it is not multiplied.
      * 
      * @param n
      * @return
@@ -231,9 +242,9 @@ public class PrinterCommand1
     }
 
     /**
-     * 等于 0 时取消字体加粗 非 0 时设置字体加粗
+     * n=0: Cancel bold font. When not equal to 0, set bold font.
      * 
-     * @param n 最低位有效
+     * @param Least significant bit of n is valid 
      * @return
      */
     static public byte[] getCmdEscEN(int n)
@@ -244,9 +255,9 @@ public class PrinterCommand1
     }
 
     /**
-     * 默认值:0
+     * default: 0
      * 
-     * @param n :表示两个字符之间的间距
+     * @param n: Spacing between two characters
      * @return
      */
     static public byte[] getCmdEscSpN(int n)
@@ -257,7 +268,8 @@ public class PrinterCommand1
     }
 
     /**
-     * 该命令之后所有字符均以正常宽度的 2 倍打印; 该命令可以用回车或者 DC4 命令删除。
+     * After this command, all characters will be printed at double the normal width
+     * Can be canceled using either Enter or DC4 command.
      * 
      * @return
      */
@@ -269,7 +281,7 @@ public class PrinterCommand1
     }
 
     /**
-     * 命令执行后,字符恢复正常宽度打印
+     * After this command, the characters return to printing at normal width.
      * 
      * @return
      */
@@ -281,9 +293,9 @@ public class PrinterCommand1
     }
 
     /**
-     * 默认:0
+     * Default:0
      * 
-     * @param n n=1:设置字符上下倒置 n=0:取消字符上下倒置
+     * @param n n=1: Set characters to printing upside down, n=0: Cancel upside down
      * @return
      */
     static public byte[] getCmdEsc__N(int n)
@@ -294,9 +306,9 @@ public class PrinterCommand1
     }
 
     /**
-     * 默认:0
+     * Default:0
      * 
-     * @param n n=1:设置字符反白打印 n=0:取消字符反白打印
+     * @param n n=1: Set characters to print inverted (white characters on black background), n=0: Cancel inverted printing
      * @return
      */
     static public byte[] getCmdGsBN(int n)
@@ -307,9 +319,9 @@ public class PrinterCommand1
     }
 
     /**
-     * 默认:0
+     * Default:0
      * 
-     * @param n n=0-2,下划线的高度
+     * @param n n=0-2: Underline height
      * @return
      */
     static public byte[] getCmdEsc___N(int n)
@@ -320,7 +332,7 @@ public class PrinterCommand1
     }
 
     /**
-     * @param n n=1:选择用户自定义字符集; n=0:选择内部字符集(默认)
+     * @param n n=1: Select user-defined character set, n=0: Select internal character set (default).
      * @return
      */
     static public byte[] getCmdEsc____N(int n)
@@ -331,18 +343,18 @@ public class PrinterCommand1
     }
 
     /**
-     * 用于设置用户自定义字符,最多可设置 32 个用户自定义字符。
+     * Set user-defined characters, max 32 characters.
      * 
      * @return
      */
     static public byte[] getCmdEsc_SNMW()
     {
-        // 占位
+        // blank
         return null;
     }
 
     /**
-     * 命令用于取消用户自定义的字符,字符取消后,使用系统的字符。
+     * Cancel user-defined characters. After cancellation, use the internal system's characters.
      * 
      * @param n
      * @return
@@ -355,10 +367,11 @@ public class PrinterCommand1
     }
 
     /**
-     * 选择国际字符集。中文版本不支持该命令。
+     * Select the international character set. This command is not supported in the Chinese version.
      * 
-     * @param n 国际字符集设置如下:0:USA 1:France 2:Germany 3:U.K. 4:Denmark 1 5:Sweden
-     *            6:Italy 7:Spain1 8:Japan 9:Norway 10:Denmark II 11:Spain II
+     * @param n international character set configuration: 
+     *            0:USA 1:France 2:Germany 3:U.K. 4:Denmark I 5:Sweden
+     *            6:Italy 7:Spain I 8:Japan 9:Norway 10:Denmark II 11:Spain II
      *            12:Latin America 13:Korea
      * @return
      */
@@ -370,9 +383,10 @@ public class PrinterCommand1
     }
 
     /**
-     * 选择字符代码页,字符代码页用于选择 0x80~0xfe 的打印字符。中文版本不支持该命令
+     * Select the character code page, used to select printable characters from 0x80 to 0xfe. 
+     * This command is not supported in the Chinese version.
      * 
-     * @param n 字符代码页参数如 下:0:437 1:850
+     * @param n character code page parameters are as follows: 0:437 1:850
      * @return
      */
     static public byte[] getCmdEscTN(int n)
@@ -382,14 +396,14 @@ public class PrinterCommand1
         };
     }
 
-    /*--------------------------图形打印命令 略 -----------------------------*/
+    /*--------------------------Graphic printing commands omitted-----------------------------*/
 
-    /*--------------------------按键控制命令-----------------------------*/
+    /*--------------------------Key control commands-----------------------------*/
 
     /**
-     * 允许/禁止按键开关命令,暂时不支持该命令。
+     * This command for enabling/disabling key switches is temporarily not supported.
      * 
-     * @param n n=1,禁止按键 n=0,允许按键(默认)
+     * @param n n=1: Disable keys n=0: Allow keys (default)
      * @return
      */
     static public byte[] getCmdEscC5N(int n)
@@ -399,10 +413,10 @@ public class PrinterCommand1
         };
     }
 
-    /*--------------------------初始化命令-----------------------------*/
+    /*--------------------------Initialization command-----------------------------*/
 
     /**
-     * 初始化打印机。清除打印缓冲区 恢复默认值 选择字符打印方式 删除用户自定义字符
+     * Initialize the printer. Clear the print buffer, restore default values, select character printing mode, delete user-defined characters
      * 
      * @return
      */
@@ -413,10 +427,10 @@ public class PrinterCommand1
         };
     }
 
-    /*--------------------------状态传输命令-----------------------------*/
+    /*--------------------------Status transmission command-----------------------------*/
 
     /**
-     * 向主机传送控制板状态
+     * Transmit control board status to the host
      * 
      * @param n
      * @return
@@ -429,7 +443,8 @@ public class PrinterCommand1
     }
 
     /**
-     * 当有效时,打印机发现状态改变,则自动发送状态到主机。详细参照ESC/POS指令级。
+     * When enabled, if the printer detects a change in status, it will automatically send the status to the host. 
+     * For details, refer to the ESC/POS instruction set.
      * 
      * @param n
      * @return
@@ -442,7 +457,8 @@ public class PrinterCommand1
     }
 
     /**
-     * 向主机传送周边设备状态,仅对串口型打印机有效。该命令不支持。详细参照ESC/POS指令集。
+     * Transmit peripheral device status to the host, only applicable to serial printers. 
+     * This command is currently not supported. For details, refer to the ESC/POS instruction set.
      * 
      * @param n
      * @return
@@ -454,12 +470,12 @@ public class PrinterCommand1
         };
     }
 
-    /*--------------------------条码打印命令 略 -----------------------------*/
+    /*--------------------------Barcode printing commands omitted-----------------------------*/
 
-    /*--------------------------控制板参数命令 略 -----------------------------*/
+    /*--------------------------Control board parameter commands omitted-----------------------------*/
 
     /**
-     * 自定义制表位(2个空格)
+     * Custom tab stop (2 spaces)
      * 
      * @return
      */
@@ -469,7 +485,7 @@ public class PrinterCommand1
     }
 
     /**
-     * 切纸命令
+     * Cut paper command
      */
     static public byte[] getCmdCutPaper()
     {
@@ -479,9 +495,9 @@ public class PrinterCommand1
     }
 
     /**
-     * 默认0
+     * Default: 0
      * 
-     * @param n 加粗 = 1/取消加粗 = 0
+     * @param n Bold: 1, Cancel bold: 0
      */
     static public byte[] getCmdBold(int n)
     {
@@ -491,11 +507,9 @@ public class PrinterCommand1
     }
 
     /**
-     * <p>
-     * 默认0
-     * </p>
+     * Default: 0
      * 
-     * @param n 反白 = 1/取消反白 = 0
+     * @param n Reverse: 1, Cancel reverse: 0
      */
     static public byte[] getCmdReverse(int n)
     {
@@ -505,9 +519,9 @@ public class PrinterCommand1
     }
 
     /**
-     * 默认:0
+     * Default: 0
      * 
-     * @param n 上下倒置 = 1/取消上下倒置 = 0
+     * @param n Upside down: 1, Cancel upside down: 0
      */
     static public byte[] getCmdInversion(int n)
     {
@@ -517,9 +531,9 @@ public class PrinterCommand1
     }
 
     /**
-     * 默认0
+     * Default: 0
      * 
-     * @param n 设置中文小字体 = 1/取消中文小字体 = 0
+     * @param n Set Chinese small font: 1, Cancel Chinese small font: 0
      */
     static public byte[] getCmdSmallFontCN(int n)
     {
@@ -529,9 +543,9 @@ public class PrinterCommand1
     }
 
     /**
-     * 默认0
+     * Default: 0
      * 
-     * @param n 设置英文小字体 = 1/取消英文小字体 = 0
+     * @param n Set English small font: 1, Cancel English small font: 0
      */
     static public byte[] getCmdSmallFontEN(int n)
     {
@@ -541,15 +555,11 @@ public class PrinterCommand1
     }
 
     /**
-     * 设置字体倍宽倍高
+     * Set font width and height
      * 
      * @param n = 0xAB
-     *            <p>
-     *            A 表示宽度的倍数, 0<A<7, 分别表示1-8倍宽度
-     *            </p>
-     *            <p>
-     *            B 表示高度的倍数, 0<B<7, 分别表示1-8倍高度
-     *            </p>
+     *            A: width multiplier, 0<A<7, representing 1-8 times the width respectively
+     *            B: height multiplier, 0<B<7, representing 1-8 times the height respectively
      */
     static public byte[] getCmdFontSize(int n)
     {
@@ -559,17 +569,11 @@ public class PrinterCommand1
     }
 
     /**
-     * 对齐方式
+     * Alignment
      * 
-     * @param n <p>
-     *            n = 0, 左对齐
-     *            </p>
-     *            <p>
-     *            n = 1, 居中对齐
-     *            </p>
-     *            <p>
-     *            n = 2, 右对齐
-     *            </p>
+     * @param n: n=0, Left align
+     *           n=1, Center align
+     *           n=2, Right align
      */
     static public byte[] getCmdAlignType(int n)
     {
@@ -579,7 +583,7 @@ public class PrinterCommand1
     }
 
     /**
-     * 设置行间距为 n 点行。 默认值行间距是 32 点。
+     * Set line spacing to n dot lines. Default line spacing is 32 dots.
      * 
      * @param n :0-255
      * @return
@@ -592,10 +596,16 @@ public class PrinterCommand1
     }
 
     /**
-     * 用于设置打印字符的方式。默认值是 0
+     * Set the printing mode for characters. 
+     * Default: 0
      * 
-     * @param n 位 0:保留 位 1:字体反白 位 2:1:字体上下倒置 位 3:1:字体加粗 位 4:1:双倍高度 位 5:1:双倍宽度 位
-     *            6:1:删除线
+     * @param n bit 0: reserved
+     * 1: inverted
+     * 2: 1: upside down
+     * 3: 1: bold
+     * 4: 1: height multiplier
+     * 5: 1: width multiplier
+     * 6: 1: strikethrough
      * @return
      */
     static public byte[] getCmdType(int n)
@@ -606,7 +616,7 @@ public class PrinterCommand1
     }
 
     /**
-     * 初始化指令
+     * Initialization command
      */
     public static byte[] getCmdClear() {
         return new byte[] {
@@ -615,17 +625,19 @@ public class PrinterCommand1
     }
 
     /**
-     * 选择HRI字符的打印位置 打印条形码时选择HRI字符的打印位置 n 选择打印位置如下图所示:<br/>
-     * ***************************<br/>
-     * n 打印位置<br/>
-     * 0,48 不打印<br/>
-     * 1,49 在条形码上方<br/>
-     * 2,50 在条形码下方<br/>
-     * 3,51 在条形码的上方及下方<br/>
-     * **************************<br/>
-     * HRI 表示可阅读的条形码对应字符。
+     * Select the printing position of HRI characters.
+     * When printing barcodes, select the printing position of HRI characters
+     * n selects the printing position as shown in the diagram below:
+     * ***************************
+     * n Printing position
+     * 0,48 Do not print
+     * 1,49 Above the barcode
+     * 2,50 Below the barcode
+     * 3,51 Above and below the barcode
+     * ************************** 
+     * HRI indicates the corresponding characters of the barcode that are readable.
      * 
-     * @param byte n : [范围] 0 <=n <=3, 48 <=n <=51 [缺省值] n = 0
+     * @param byte n: [Range] 0 <= n <= 3, 48 <= n <= 51 [Default Value] n = 0
      */
     public static byte[] getBarcodeHRILocation(int n) {
         return new byte[] {
@@ -634,9 +646,9 @@ public class PrinterCommand1
     }
 
     /**
-     * 设置条形码高度。 n 设定垂直方向的点数。
+     * Set barcode height. n sets the number of dots in the vertical direction.
      * 
-     * @param byte n : [范围] 1 <=n <=255 [缺省值] n = 162
+     * @param byte n: [Range] 1 <= n <= 255 [Default Value] n = 162
      */
     public static byte[] getBarcodeHeight(byte n) {
         return new byte[] {
@@ -645,22 +657,22 @@ public class PrinterCommand1
     }
 
     /**
-     * 设置条形码水平尺寸。<br/>
-     * n 设定条形码宽度如下：<br/>
-     * ***********************************************************<br/>
-     * n 多级条形码单位<br/>
-     * 宽度(毫米) 二进制条形码 窄条宽度(毫米) 宽条宽度(毫米)<br/>
-     * 2 0.250 0.250 0.625<br/>
-     * 3 0.375 0.375 1.000<br/>
-     * 4 0.560 0.500 1.250<br/>
-     * 5 0.625 0.625 1.625<br/>
-     * 6 0.750 0.750 2.000<br/>
-     * 以下是多级条形码：<br/>
-     * UPC-A, UPC-E, JAN13 (EAN13), JAN8 (EAN8), CODE93, CODE128<br/>
-     * 以下是二进制条形码：<br/>
-     * CODE39, ITF, CODABAR<br/>
+     * Set barcode horizontal size.
+     * n sets the barcode width as follows:
+     * ***********************************************************
+     * n Multi-level barcode units
+     * Width (mm) Binary barcode Narrow bar width (mm) Wide bar width (mm)
+     * 2 0.250 0.250 0.625
+     * 3 0.375 0.375 1.000
+     * 4 0.560 0.500 1.250
+     * 5 0.625 0.625 1.625
+     * 6 0.750 0.750 2.000
+     * The following are multi-level barcodes:
+     * UPC-A, UPC-E, JAN13 (EAN13), JAN8 (EAN8), CODE93, CODE128
+     * The following are binary barcodes:
+     * CODE39, ITF, CODABAR
      * 
-     * @param byte n : 2 <=n <=6 [缺省值] n = 3
+     * @param byte n: 2 <= n <= 6 [Default Value] n = 3
      */
     public static byte[] getBarcodeWidth(byte n) {
         return new byte[] {
@@ -669,7 +681,7 @@ public class PrinterCommand1
     }
 
     /**
-     * 选定条形码系统并打印条形码。
+     * Select barcode system and print barcode
      * 
      * @param
      * @return
@@ -684,9 +696,9 @@ public class PrinterCommand1
     }
 
     /**
-     * 设置条码打印左边间距 打印条码的起始位置是: 0-->255
+     * Set barcode printing left margin. Start position: 0-->255
      * 
-     * @param byte n : [范围] 0-->255
+     * @param byte n : [Range] 0-->255
      */
     public static byte[] getBarcodeLeftMargin(byte n) {
         return new byte[] {

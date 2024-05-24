@@ -25,39 +25,39 @@ import android.widget.Toast;
 public class PrinterUtil {
     private static UsbManager usbManager;
     /**
-     * 满足的设备
+     * Valid Devices
      */
     private static UsbDevice myUsbDevice;
     /**
-     * usb接口
+     * USB Interface
      */
     private static UsbInterface usbInterface;
     /**
-     * 块输出端点
+     * Bulk Output Endpoint
      */
     private static UsbEndpoint epBulkOut;
     private static UsbEndpoint epBulkIn;
     /**
-     * 控制端点
+     * Control Endpoint
      */
     private static UsbEndpoint epControl;
     /**
-     * 中断端点
+     * Interrupt Endpoint
      */
     private static UsbEndpoint epIntEndpointOut;
     private static UsbEndpoint epIntEndpointIn;
     /**
-     * 连接
+     * Connection
      */
     private static UsbDeviceConnection myDeviceConnection;
 
     /**
-     * 初始化打印机(获取usb打印设备,连接打印机,获取USB连接权限)
+     * Initialize printer (get USB printing device, connect printer, obtain USB connection permission)
      *
      * @param activity
      */
     public static void init(Activity activity) {
-        // 1)创建usbManager
+        // 1) Create USBManager
         usbManager = (UsbManager) activity
                 .getSystemService(Context.USB_SERVICE);
         enumeraterDevices(activity);
@@ -66,7 +66,7 @@ public class PrinterUtil {
     }
 
     /**
-     * 枚举设备
+     * Enumerate devices
      */
     private static void enumeraterDevices(Activity activity) {
         HashMap<String, UsbDevice> deviceList = usbManager.getDeviceList();
@@ -74,9 +74,9 @@ public class PrinterUtil {
         while (deviceIterator.hasNext()) {
             UsbDevice device = deviceIterator.next();
             Log.i("PrinterUtil", "SQLTestgetDeviceInterface device.getVendorId() : " + device.getVendorId() + ";" + device.getProductId());
-            // 每个打印机的vendorId和productId都不同,需要自行替换
+            // Each printer has a different vendor ID and product ID, which need to be replaced accordingly.
             if (device.getVendorId() == 1208 && device.getProductId() == 514) {
-                myUsbDevice = device; // 获取USBDevice
+                myUsbDevice = device; // Get USBDevice
                 PendingIntent pi = PendingIntent.getBroadcast(activity, 0,
                         new Intent(ACTION_USB_PERMISSION), 0);
                 usbManager.requestPermission(myUsbDevice, pi);
@@ -85,45 +85,45 @@ public class PrinterUtil {
     }
 
     /**
-     * 获取设备的接口
+     * Get device interfaces
      */
     private static void getDeviceInterface() {
         Log.i("PrinterUtil", "SQLTestgetDeviceInterface interfaceCounts : " + myUsbDevice);
         if (myUsbDevice != null) {
             Log.i("PrinterUtil", "interfaceCounts : " + myUsbDevice.getInterfaceCount());
             usbInterface = myUsbDevice.getInterface(0);
-            Log.i("PrinterUtil", "成功获得设备接口:" + usbInterface.getId());
+            Log.i("PrinterUtil", "Successfully obtained device interface: " + usbInterface.getId());
         }
     }
 
     /**
-     * 分配端点，IN | OUT，即输入输出；可以通过判断
+     * Assign endpoints, IN | OUT, for input and output; can be determined through evaluation.
      */
     private static void assignEndpoint() {
         if (usbInterface != null) {
             for (int i = 0; i < usbInterface.getEndpointCount(); i++) {
                 UsbEndpoint ep = usbInterface.getEndpoint(i);
                 switch (ep.getType()) {
-                    case UsbConstants.USB_ENDPOINT_XFER_BULK:// 块
-                        if (UsbConstants.USB_DIR_OUT == ep.getDirection()) {// 输出
+                    case UsbConstants.USB_ENDPOINT_XFER_BULK:// bulk
+                        if (UsbConstants.USB_DIR_OUT == ep.getDirection()) {// Output
                             epBulkOut = ep;
                             Log.i("PrinterUtil", "Find the BulkEndpointOut,"
-                                    + "index:" + i + "," + "使用端点号："
+                                    + "index:" + i + "," + "Using endpoint number: "
                                     + epBulkOut.getEndpointNumber());
                         } else {
                             epBulkIn = ep;
                             Log.i("PrinterUtil", "Find the BulkEndpointIn:"
-                                    + "index:" + i + "," + "使用端点号："
+                                    + "index:" + i + "," + "Using endpoint number: "
                                     + epBulkIn.getEndpointNumber());
                         }
                         break;
-                    case UsbConstants.USB_ENDPOINT_XFER_CONTROL:// 控制
+                    case UsbConstants.USB_ENDPOINT_XFER_CONTROL:// Control
                         epControl = ep;
                         Log.i("PrinterUtil", "find the ControlEndPoint:" + "index:"
                                 + i + "," + epControl.getEndpointNumber());
                         break;
-                    case UsbConstants.USB_ENDPOINT_XFER_INT:// 中断
-                        if (ep.getDirection() == UsbConstants.USB_DIR_OUT) {// 输出
+                    case UsbConstants.USB_ENDPOINT_XFER_INT:// Interrupt
+                        if (ep.getDirection() == UsbConstants.USB_DIR_OUT) {// Output
                             epIntEndpointOut = ep;
                             Log.i("PrinterUtil", "find the InterruptEndpointOut:"
                                     + "index:" + i + ","
@@ -146,31 +146,31 @@ public class PrinterUtil {
     private static final String ACTION_USB_PERMISSION = "com.android.example.USB_PERMISSION";
 
     /**
-     * 连接设备
+     * Connect device
      */
     public static void openDevice() {
         Log.i("PrinterUtil", "SQLTestprintText openDevice111 : " + usbInterface);
-        if (usbInterface != null) {// 接口是否为null
-            // 在open前判断是否有连接权限；对于连接权限可以静态分配，也可以动态分配权限
+        if (usbInterface != null) {// Whether the interface is null
+            // Check if there is permission to connect before opening; permissions for connection can be statically or dynamically allocated.
             UsbDeviceConnection conn = null;
             Log.i("PrinterUtil", "SQLTestprintText openDevice222 : " + usbManager.hasPermission(myUsbDevice));
             if (usbManager.hasPermission(myUsbDevice)) {
-                // 有权限，那么打开
+                // If there is permission, then open.
                 conn = usbManager.openDevice(myUsbDevice);
             }
             if (null == conn) {
-                Log.i("PrinterUtil", "不能连接到设备");
+                Log.i("PrinterUtil", "Unable to connect to the device.");
                 return;
             }
-            // 打开设备
+            // Open the device.
             if (conn.claimInterface(usbInterface, true)) {
                 myDeviceConnection = conn;
-                if (myDeviceConnection != null)// 到此你的android设备已经连上zigbee设备
-                    Log.i("PrinterUtil", "open设备成功！");
+                if (myDeviceConnection != null)// Your Android device is now connected to the Zigbee device.
+                    Log.i("PrinterUtil", "Open device successful");
                 final String mySerial = myDeviceConnection.getSerial();
-                Log.i("PrinterUtil", "设备serial number：" + mySerial);
+                Log.i("PrinterUtil", "Device serial number：" + mySerial);
             } else {
-                Log.i("PrinterUtil", "无法打开连接通道。");
+                Log.i("PrinterUtil", "Unable to open connection channel.");
                 conn.close();
             }
         }
@@ -190,13 +190,16 @@ public class PrinterUtil {
             request.queue(byteBuffer, inMax);
 
             /*
-             * int requestType：确定数据流的方向、请求类型以及接收端；由于是与HID通信，所以它只能是0 01 00001 (0x21)和1010 0001(0xA1)，再把它转为16进制填上去就可以了。
-             * 比特位7是指数据传输的方向：从主机到设备（OUT）为0，从设备到主机（IN）为1；比特位6到5是指请求类型：USB标准请求为00，USB类请求为01，
-             * 厂商的自定义请求为10；比特位4到0是指接收端：指向设备（00000）、专属接口（00001）、端点（00010）、设备中的其它元件（00011）。
-             * int request：这个参数是对应的请求号。在我的demo中，使用到的请求是Set Report（因为在我的demo中需要发送报表命令请求数据，所以才用Set Report；不同情况要不同请求）,其对应的值就是0x09（查一下就知道了）了。
-             * int value：可将请求传递给设备，有两个字节。对应于Set Preport，高字节是报告类型（02为输出，03为特征），低字节是报告ID（默认为0）。
-             * int index：可将请求传递给设备，有两个字节。典型的应用是传递索引或者诸如接口或端点号的偏移量（这些需要查询自己的设备信息了，我这里的HID的接口索引值为0）。
-             * 原文链接：https://blog.csdn.net/gd6321374/article/details/78014255
+             * int requestType：Determine the direction of data flow, request type, and recipient. 
+             *     Since it's HID communication, it can only be 0 01 00001 (0x21) and 1010 0001 (0xA1). 
+             *     Convert these values to hexadecimal and fill accordingly.
+             *         Bit 7 indicates the direction of data transmission: 0 for host to device (OUT), 1 for device to host (IN).
+             *         Bits 6 to 5 indicate the request type: 00 for USB standard request, 01 for USB class request, 10 for vendor-defined request.
+             *         Bits 4 to 0 indicate the recipient: directed to device (00000), to specific interface (00001), to endpoint (00010), to other components in the device (00011).
+             * int request：This parameter corresponds to the request number. In this demo, the request used is Set Report (to send a report command to request data); Its corresponding value is 0x09.
+             * int value：The request is passed to the device using two bytes. For Set Report, the first byte represents the report type (02 for output, 03 for feature), and the last byte represents the report ID (default is 0).
+             * int index：The request is passed to the device using two bytes. A typical application is to pass an index or an offset such as interface or endpoint numbers (this information needs to be retrieved from your device; in this case, the HID interface index value is 0).
+             * Original link：https://blog.csdn.net/gd6321374/article/details/78014255
              */
             // send poll status command
             byte[] buffer = new byte[]{29, 73, 67};
